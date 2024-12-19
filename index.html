@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7-Day Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #8e44ad, #3498db);
+      color: white;
+      text-align: center;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .timer-container {
+      max-width: 400px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .timer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .timer div {
+      flex: 1;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+    }
+    .timer span {
+      display: block;
+    }
+    .timer span:first-child {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .timer span:last-child {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer-container">
+    <h1>7-Day Timer</h1>
+    <div class="timer">
+      <div><span id="days">07</span><span>Days</span></div>
+      <div><span id="hours">00</span><span>Hours</span></div>
+      <div><span id="minutes">00</span><span>Minutes</span></div>
+      <div><span id="seconds">00</span><span>Seconds</span></div>
+    </div>
+  </div>
+  <script>
+    const daysElem = document.getElementById("days");
+    const hoursElem = document.getElementById("hours");
+    const minutesElem = document.getElementById("minutes");
+    const secondsElem = document.getElementById("seconds");
+
+    // Set the target time (7 days from now)
+    const targetTime = new Date();
+    targetTime.setDate(targetTime.getDate() + 7);
+
+    function updateTimer() {
+      const currentTime = new Date();
+      const remainingTime = targetTime - currentTime;
+
+      if (remainingTime <= 0) {
+        clearInterval(timerInterval);
+        daysElem.textContent = "00";
+        hoursElem.textContent = "00";
+        minutesElem.textContent = "00";
+        secondsElem.textContent = "00";
+        alert("Time's up!");
+        return;
+      }
+
+      const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((remainingTime / (1000 * 60)) % 60);
+      const seconds = Math.floor((remainingTime / 1000) % 60);
+
+      daysElem.textContent = String(days).padStart(2, "0");
+      hoursElem.textContent = String(hours).padStart(2, "0");
+      minutesElem.textContent = String(minutes).padStart(2, "0");
+      secondsElem.textContent = String(seconds).padStart(2, "0");
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+  </script>
+</body>
+</html>
